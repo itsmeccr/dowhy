@@ -30,7 +30,7 @@ class PropensityScoreWeightingEstimator(PropensityScoreEstimator):
 
     def _estimate_effect(self, recalculate_propensity_score=False):
         if self._propensity_score_model is None or recalculate_propensity_score is True:
-            self._propensity_score_model = linear_model.LogisticRegression()
+            self._propensity_score_model = linear_model.LogisticRegression(class_weight='balanced')
             self._propensity_score_model.fit(self._observed_common_causes, self._treatment)
             self._data['ps'] = self._propensity_score_model.predict_proba(self._observed_common_causes)[:,1]
         
